@@ -1,0 +1,13 @@
+
+# Ceph requires all servers to have accurate time
+# DeepSea is able to manage a basic time service to meet this need
+time_service:
+  # Set 'manage' to 'true' if DeepSea should configure a basic time service
+  # Set 'manage' to false if the cluster has a time service already set up
+  manage: true
+  # By default, the DeepSea master is configured as a basic NTP server
+  ntp_server: {{ pillar.get('master_minion') }}
+  # DeepSea can distribute custom NTP configuration files to the server
+  # NTP configuration files must be placed in /srv/salt/ceph/time/ntp/
+  ntp_server_conf: ntp-server-default.conf # Conf delivered to the ntp_server node
+  ntp_client_conf: ntp-client-default.conf # Conf delivered to all other nodes
