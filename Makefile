@@ -42,6 +42,10 @@ copy-files:
 	install -m 644 srv/pillar/ceph/master_minion.sls $(DESTDIR)/srv/pillar/ceph/
 	install -d -m 755 $(DESTDIR)/srv/pillar/ceph/stack
 	install -m 644 srv/pillar/ceph/stack/stack.cfg $(DESTDIR)/srv/pillar/ceph/stack/stack.cfg
+####
+	install -m 644 srv/pillar/ceph/stack/global.yml $(DESTDIR)/srv/pillar/ceph/stack/global.yml
+	install -m 644 srv/pillar/ceph/stack/ntp.sls $(DESTDIR)/srv/pillar/ceph/stack/ntp.sls
+####
 	install -m 644 srv/pillar/top.sls $(DESTDIR)/srv/pillar/
 	# modules
 	install -d -m 755 $(DESTDIR)/srv/salt/_modules
@@ -321,8 +325,9 @@ copy-files:
 	install -d -m 755 $(DESTDIR)/srv/salt/ceph/time
 	install -m 644 srv/salt/ceph/time/default.sls $(DESTDIR)/srv/salt/ceph/time/
 	install -m 644 srv/salt/ceph/time/init.sls $(DESTDIR)/srv/salt/ceph/time/
-	install -d -m 755 $(DESTDIR)/srv/salt/ceph/time/ntp
-	install -m 644 srv/salt/ceph/time/ntp/*.sls $(DESTDIR)/srv/salt/ceph/time/ntp/
+#	install -d -m 755 $(DESTDIR)/srv/salt/ceph/time/ntp
+	install -m 755 srv/salt/ceph/time/ntp $(DESTDIR)/srv/salt/ceph/time/ntp # symlink
+#	install -m 644 srv/salt/ceph/time/ntp/*.sls $(DESTDIR)/srv/salt/ceph/time/ntp/
 	install -d -m 755 $(DESTDIR)/srv/salt/ceph/updates
 	install -m 644 srv/salt/ceph/updates/*.sls $(DESTDIR)/srv/salt/ceph/updates/
 	install -d -m 755 $(DESTDIR)/srv/salt/ceph/updates/restart
@@ -339,6 +344,12 @@ copy-files:
 	ln -sf services		$(DESTDIR)/srv/salt/ceph/stage/4
 	ln -sf removal		$(DESTDIR)/srv/salt/ceph/stage/5
 
+	# formula - ntp
+	install -d -m 755 $(DESTDIR)/srv/formulas/deepsea-ntp-formula
+	# Install entire hierarchy using find. Ignore '.*' hidden files.
+	find srv/formulas/deepsea-ntp-formula/ -not -path '*/\.*' -type f \
+		-exec sh -c 'install -D -m 644 "$0" $(DESTDIR)/"$0"' {} \;
+
 install: copy-files
 	sed -i '/^master_minion:/s!_REPLACE_ME_!'`hostname -f`'!' /srv/pillar/ceph/master_minion.sls
 	chown -R salt /srv/pillar/ceph
@@ -348,7 +359,7 @@ rpm: tarball test
 	rpmbuild -bb deepsea.spec
 
 # Removing test dependency until resolved
-tarball: 
+tarball:
 	VERSION=`awk '/^Version/ {print $$2}' deepsea.spec`; \
 	git archive --prefix deepsea-$$VERSION/ -o ~/rpmbuild/SOURCES/deepsea-$$VERSION.tar.gz HEAD
 
