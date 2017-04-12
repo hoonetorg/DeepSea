@@ -1,4 +1,3 @@
-
 {% if salt['pillar.get']('time_service:manage') %}
 
 ntp:
