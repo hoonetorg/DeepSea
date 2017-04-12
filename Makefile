@@ -326,7 +326,7 @@ copy-files:
 	install -m 644 srv/salt/ceph/time/default.sls $(DESTDIR)/srv/salt/ceph/time/
 	install -m 644 srv/salt/ceph/time/init.sls $(DESTDIR)/srv/salt/ceph/time/
 #	install -d -m 755 $(DESTDIR)/srv/salt/ceph/time/ntp
-	install -m 755 srv/salt/ceph/time/ntp $(DESTDIR)/srv/salt/ceph/time/ntp # symlink
+#	install -m 755 srv/salt/ceph/time/ntp $(DESTDIR)/srv/salt/ceph/time/ntp # symlink
 #	install -m 644 srv/salt/ceph/time/ntp/*.sls $(DESTDIR)/srv/salt/ceph/time/ntp/
 	install -d -m 755 $(DESTDIR)/srv/salt/ceph/updates
 	install -m 644 srv/salt/ceph/updates/*.sls $(DESTDIR)/srv/salt/ceph/updates/
@@ -345,6 +345,7 @@ copy-files:
 	ln -sf removal		$(DESTDIR)/srv/salt/ceph/stage/5
 
 	# formula - ntp
+	ln -sf ../../../formulas/deepsea-ntp-formula/ntp/ $(DESTDIR)/srv/salt/ceph/time/ntp
 	install -d -m 755 $(DESTDIR)/srv/formulas/deepsea-ntp-formula
 	# Install entire hierarchy using find. Ignore '.*' hidden files.
 	find srv/formulas/deepsea-ntp-formula/ -not -path '*/\.*' -type f \
