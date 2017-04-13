@@ -486,6 +486,7 @@ class Validate(object):
         proc.wait()
         return (stdout, stderr)
 
+    # TODO: Update this check for NTP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def _ntp_check(self, server):
         """
         """
