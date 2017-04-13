@@ -47,7 +47,7 @@ copy-files:
 	install -m 644 srv/pillar/ceph/stack/stack.cfg $(DESTDIR)/srv/pillar/ceph/stack/stack.cfg
 ####
 	install -m 644 srv/pillar/ceph/stack/global.yml $(DESTDIR)/srv/pillar/ceph/stack/global.yml
-	# install -m 644 srv/pillar/ceph/stack/ntp.sls $(DESTDIR)/srv/pillar/ceph/stack/ntp.sls
+	install -m 644 srv/pillar/ceph/stack/ntp.sls $(DESTDIR)/srv/pillar/ceph/stack/ntp.sls
 ####
 	install -m 644 srv/pillar/top.sls $(DESTDIR)/srv/pillar/
 	# modules
