@@ -1,4 +1,4 @@
 [submodule "deepsea-ntp-formula"]
-	path = srv/formulas/deepsea-ntp-formula
+	path = srv/salt/ceph/time/ntp-formula
 	url = https://github.com/BlaineEXE/ntp-formula.git
 	branch = deepsea

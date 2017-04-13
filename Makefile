@@ -349,9 +349,10 @@ copy-files:
 
 	# formula - ntp
 	# ln -sf ../../../formulas/deepsea-ntp-formula/ntp/ $(DESTDIR)/srv/salt/ceph/time/ntp
-	install -d -m 755 $(DESTDIR)/srv/formulas/deepsea-ntp-formula
+	#install -d -m 755 $(DESTDIR)/srv/formulas/deepsea-ntp-formula
+	install -d -m 755 $(DESTDIR)/srv/salt/ceph/time/ntp-formula
 	# Install entire hierarchy using find. Ignore '.*' hidden files.
-	for file in $(shell find srv/formulas/deepsea-ntp-formula/ -not -path '*/\.*' -type f); do \
+	for file in $(shell find srv/salt/ceph/time/ntp-formula/ -not -path '*/\.*' -type f); do \
 		install -D -m 644 "$$file" $(DESTDIR)/"$$file"; \
 	done
 
