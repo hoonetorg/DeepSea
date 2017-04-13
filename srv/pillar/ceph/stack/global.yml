@@ -1,13 +1,24 @@
-
-# Ceph requires all servers to have accurate time
-# DeepSea is able to manage a basic time service to meet this need
+# Ceph requires all servers to have accurate time.
+# DeepSea is able to manage a basic time service to meet this need.
 time_service:
-  # Set 'manage' to 'true' if DeepSea should configure a basic time service
-  # Set 'manage' to false if the cluster has a time service already set up
+  # Set 'manage' to 'true' if DeepSea should manage a basic time service.
+  # Set 'manage' to 'false' if DeepSea should not manage a basic time service.
   manage: true
-  # By default, the DeepSea master is configured as a basic NTP server
+  # The node for DeepSea to manage as an NTP master server.
+  # Leave this blank or remove this line to have DeepSea only manage clients.
   ntp_server: {{ pillar.get('master_minion') }}
-  # DeepSea can distribute custom NTP configuration files to the server
-  # NTP configuration files must be placed in /srv/salt/ceph/time/ntp/
+  # The NTP server will be configured to reference [0-3].pool.ntp.org higher
+  # stratum servers by default. This can be changed here.
+  # If DeepSea is not managing an NTP server, the clients will be configured
+  # to reference the servers here instead of the NTP server managed by DeepSea.
+  higher_stratum_servers:
+    - '0.pool.ntp.org'
+    - '1.pool.ntp.org'
+    - '2.pool.ntp.org'
+    - '3.pool.ntp.org'
+  # DeepSea can distribute custom NTP configuration files to nodes.
+  # NTP config files must be placed in '/srv/formulas/deepsea-ntp-formula/ntp/'.
+  # 'ntp-server-default.conf' and 'ntp-client-default.conf' obey the
+  # 'higher_stratum_servers' setting, but custom files aren't guaranteed to do so.
   ntp_server_conf: ntp-server-default.conf # Conf delivered to the ntp_server node
   ntp_client_conf: ntp-client-default.conf # Conf delivered to all other nodes
