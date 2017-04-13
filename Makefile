@@ -13,6 +13,9 @@ copy-files:
 	install -m 644 etc/salt/master.d/modules.conf $(DESTDIR)/etc/salt/master.d/
 	install -m 644 etc/salt/master.d/reactor.conf $(DESTDIR)/etc/salt/master.d/
 	install -m 644 etc/salt/master.d/output.conf $(DESTDIR)/etc/salt/master.d/
+####
+	install -m 644 etc/salt/master.d/50-deepsea-file-roots.conf $(DESTIDR)/etc/salt/master.d/
+####
 	# docs
 	install -d -m 755 $(DESTDIR)$(DOCDIR)/deepsea
 	install -m 644 LICENSE $(DESTDIR)$(DOCDIR)/deepsea/
@@ -345,7 +348,7 @@ copy-files:
 	ln -sf removal		$(DESTDIR)/srv/salt/ceph/stage/5
 
 	# formula - ntp
-	ln -sf ../../../formulas/deepsea-ntp-formula/ntp/ $(DESTDIR)/srv/salt/ceph/time/ntp
+	# ln -sf ../../../formulas/deepsea-ntp-formula/ntp/ $(DESTDIR)/srv/salt/ceph/time/ntp
 	install -d -m 755 $(DESTDIR)/srv/formulas/deepsea-ntp-formula
 	# Install entire hierarchy using find. Ignore '.*' hidden files.
 	for file in $(shell find srv/formulas/deepsea-ntp-formula/ -not -path '*/\.*' -type f); do \
